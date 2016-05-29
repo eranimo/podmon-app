@@ -20,7 +20,6 @@ class Login extends Component {
     const username = this.refs.username.value
     const password = this.refs.password.value
     this.props.login(username, password)
-    this.props.push('/main')
   }
   render (){
     return (

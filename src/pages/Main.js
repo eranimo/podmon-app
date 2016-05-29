@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react'
-import Counter from '../components/Counter'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as counterActions from '../actions/counterActions'
@@ -15,11 +14,9 @@ class Main extends Component {
     const { counter, increment, decrement } = this.props
 
     return (
-      <Counter
-        value={counter}
-        onIncrement={increment}
-        onDecrement={decrement}
-      />
+      <div>
+        Main
+      </div>
     )
   }
 }
