@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { push } from 'react-router-redux'
 import { connect } from 'react-redux'
-import { checkLogin } from '../actions/authActions'
+import { checkLogin } from '../redux/auth'
 
 
 class Auth extends Component {

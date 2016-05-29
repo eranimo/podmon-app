@@ -9,14 +9,14 @@ import thunk from 'redux-thunk';
 
 import Auth from './components/Auth'
 
-import reducers from './reducers'
+import reducers from './redux'
 
 import App from './pages/App'
 import Login from './pages/Login'
 import Logout from './pages/Logout'
 import Home from './pages/Home'
 import Main from './pages/Main'
-
+import Account from './pages/Account'
 
 const store = createStore(
   combineReducers({
@@ -37,8 +37,9 @@ ReactDOM.render(
         <IndexRoute component={Home} />
         <Route path="login" component={Login} />
         <Route path="logout" component={Logout} />
-        <Route path="main" component={Auth} >
+        <Route path="accounts" component={Auth} >
           <IndexRoute component={Main} />
+          <Route path=":id" component={Account} />
         </Route>
       </Route>
     </Router>

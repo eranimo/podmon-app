@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react'
 
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { login } from '../actions/authActions'
+import { login } from '../redux/auth'
 import { push } from 'react-router-redux'
 
 
@@ -13,7 +13,7 @@ const mapStateToProps = (state) => {
 class Login extends Component {
   componentWillMount() {
     if (this.props.user) {
-      this.props.push('/main')
+      this.props.push('/accounts')
     }
   }
   handleLogin() {

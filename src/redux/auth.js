@@ -38,11 +38,11 @@ function checkFailed(error) {
 
 export function login(username, password) {
   return (dispatch) => {
-    post(dispatch, '/api/token/fetch', { username, password })
+    post('/api/token/fetch', { username, password })
       .then(({ token, user, orig_iat }) => {
         cookie.save(AUTH_COOKIE_NAME, JSON.stringify({token, orig_iat}))
         dispatch(loginSuccess(token, user))
-        dispatch(replace('/main'))
+        dispatch(replace('/accounts'))
       })
       .catch((error) => dispatch(loginFailure(error)))
   }
@@ -52,7 +52,7 @@ export function checkLogin() {
   return (dispatch) => {
     const authToken = cookie.load(AUTH_COOKIE_NAME)
     if (authToken) {
-      post(dispatch, '/api/token/refresh', authToken)
+      post('/api/token/refresh', authToken)
         .then(({ token, user }) => {
           cookie.save('authToken', token)
           dispatch(checkSuccess(token, user))
@@ -73,4 +73,45 @@ export function checkLogin() {
 export function logout() {
   cookie.remove(AUTH_COOKIE_NAME)
   return { type: LOGOUT }
+}
+
+
+const initialState = {
+  loggingIn: false,
+  hasError: false,
+  loginError: null,
+  user: null
+}
+
+export function auth(state = initialState, action) {
+  switch (action.type) {
+    case LOGIN:
+      return {
+        ...state,
+        loggingIn: true
+      }
+    case CHECK_SUCCESS:
+    case LOGIN_SUCCESS:
+      return {
+        ...state,
+        loggingIn: false,
+        hasError: false,
+        user: action.data.user
+      }
+    case CHECK_FAILED:
+    case LOGIN_FAILURE:
+      return {
+        ...state,
+        loggingIn: false,
+        hasError: true,
+        loginError: action.data.error
+      }
+    case LOGOUT:
+      return {
+        ...state,
+        user: null
+      }
+    default:
+      return state
+  }
 }

@@ -22,7 +22,7 @@ class App extends Component {
               <Link to="/login">Login</Link>
             </li>
             <li>
-              <Link to="/main">Main</Link>
+              <Link to="/accounts">Main</Link>
             </li>
             {user ?
               <div>

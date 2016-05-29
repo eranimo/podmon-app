@@ -13,12 +13,12 @@ const mapStateToProps = (state) => {
 class Main extends Component {
   componentWillMount() {
     console.log()
-    this.props.fetchAccounts(this.props.user.id)
+    // this.props.fetchAccount(this.props.location.query.id)
   }
   render (){
-    const { accounts: { accounts } } = this.props
+    const { accounts: { loading, accounts } } = this.props
 
-    if (!accounts) {
+    if (loading) {
       return <div>Loading...</div>
     } else {
       console.log(accounts)
@@ -27,7 +27,9 @@ class Main extends Component {
           Crap
           {accounts.map(({ name }) => {
             return (
-              <li>{name}</li>
+              <li>
+                {name}
+              </li>
             )
           })}
         </ul>
@@ -36,4 +38,4 @@ class Main extends Component {
   }
 }
 
-export default connect(mapStateToProps, {fetchAccounts})(Main)
+export default connect(mapStateToProps, { fetchAccounts })(Main)
