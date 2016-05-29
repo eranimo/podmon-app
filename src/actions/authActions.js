@@ -12,7 +12,7 @@ export const LOGOUT = 'LOGOUT'
 export const CHECK_FAILED = 'CHECK_FAILED'
 export const CHECK_SUCCESS = 'CHECK_SUCCESS'
 
-export const AUTH_COOKIE_NAME = 'authToken'
+export const AUTH_COOKIE_NAME = 'authPayload'
 
 
 // actions
@@ -39,9 +39,10 @@ function checkFailed(error) {
 export function login(username, password) {
   return (dispatch) => {
     post(dispatch, '/api/token/fetch', { username, password })
-      .then(({ token, user }) => {
-        cookie.save('authToken', token)
+      .then(({ token, user, orig_iat }) => {
+        cookie.save(AUTH_COOKIE_NAME, JSON.stringify({token, orig_iat}))
         dispatch(loginSuccess(token, user))
+        dispatch(replace('/main'))
       })
       .catch((error) => dispatch(loginFailure(error)))
   }
@@ -49,28 +50,23 @@ export function login(username, password) {
 
 export function checkLogin() {
   return (dispatch) => {
-    return new Promise((resolve, reject) => {
-      const authToken = cookie.load(AUTH_COOKIE_NAME)
-      if (authToken) {
-        post(dispatch, '/api/token/verify', { token: authToken })
-          .then(({ token, user }) => {
-            cookie.save('authToken', token)
-            dispatch(checkSuccess(token, user))
-            resolve()
-          })
-          .catch((error) => {
-            // auth token probably expired, redurect to login page
-            reject()
-            dispatch(checkFailed(error))
-            dispatch(replace('/login'))
-          })
-      } else {
-        // no auth token, redirect to login page
-        reject()
-        dispatch(checkFailed(error))
-        dispatch(replace('/login'))
-      }
-    })
+    const authToken = cookie.load(AUTH_COOKIE_NAME)
+    if (authToken) {
+      post(dispatch, '/api/token/refresh', authToken)
+        .then(({ token, user }) => {
+          cookie.save('authToken', token)
+          dispatch(checkSuccess(token, user))
+        })
+        .catch((error) => {
+          // auth token probably expired, redurect to login page
+          dispatch(checkFailed(error))
+          dispatch(replace('/login'))
+        })
+    } else {
+      // no auth token, redirect to login page
+      dispatch(checkFailed())
+      dispatch(replace('/login'))
+    }
   }
 }
 

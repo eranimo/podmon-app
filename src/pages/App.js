@@ -25,9 +25,12 @@ class App extends Component {
               <Link to="/main">Main</Link>
             </li>
             {user ?
-              <li>
-                <Link to="/logout">Logout</Link>
-              </li>
+              <div>
+                <li>Welcome <b>{user.username}</b></li>
+                <li>
+                  <Link to="/logout">Logout</Link>
+                </li>
+              </div>
               : null}
           </ul>
         </header>

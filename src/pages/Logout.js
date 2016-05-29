@@ -5,7 +5,7 @@ import { logout } from '../actions/authActions'
 import { push } from 'react-router-redux'
 
 class Logout extends Component {
-  handleLogout() {
+  componentWillMount() {
     this.props.logout()
     this.props.push('/')
   }

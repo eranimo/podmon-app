@@ -11,6 +11,11 @@ const mapStateToProps = (state) => {
 }
 
 class Login extends Component {
+  componentWillMount() {
+    if (this.props.user) {
+      this.props.push('/main')
+    }
+  }
   handleLogin() {
     const username = this.refs.username.value
     const password = this.refs.password.value
