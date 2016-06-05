@@ -15,8 +15,9 @@ import App from './pages/App'
 import Login from './pages/Login'
 import Logout from './pages/Logout'
 import Home from './pages/Home'
-import Main from './pages/Main'
+import Accounts from './pages/Accounts'
 import Account from './pages/Account'
+import Character from './pages/Character'
 
 const store = createStore(
   combineReducers({
@@ -35,11 +36,12 @@ ReactDOM.render(
     <Router history={history}>
       <Route path="/" component={App}>
         <IndexRoute component={Home} />
-        <Route path="login" component={Login} />
-        <Route path="logout" component={Logout} />
-        <Route path="accounts" component={Auth} >
-          <IndexRoute component={Main} />
-          <Route path=":id" component={Account} />
+        <Route path="/login" component={Login} />
+        <Route path="/logout" component={Logout} />
+        <Route component={Auth} >
+          <Route path="/accounts" component={Accounts} />
+          <Route path="/account/:accountId" component={Account} />
+          <Route path="/account/:accountId/character/:charId" component={Character} />
         </Route>
       </Route>
     </Router>

@@ -4,17 +4,17 @@ export function makeReducer(actionName) {
     [actionName]: null
   }
   return (state = initialState, action) => {
-    console.log(action.type, 'FETCH_' + actionName.toUpperCase())
     if (action.type === 'FETCH_' + actionName.toUpperCase() + '_SUCCESS'){
       return {
         ...state,
         hasError: false,
         [actionName]: action.data[actionName]
       }
-    } else if ('FETCH_' + actionName.toUpperCase() + '_FAILED') {
+    } else if (action.type === 'FETCH_' + actionName.toUpperCase() + '_FAILED') {
       return {
         ...state,
         hasError: true,
+        error: action.data.error,
         [actionName]: null
       }
     } else {

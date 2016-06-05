@@ -1,41 +1,44 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { fetchAccounts } from '../redux/accounts'
+import { fetchAccount } from '../redux/account'
+import { Link } from 'react-router'
+
 
 const mapStateToProps = (state) => {
   return {
     user: state.auth.user,
-    accounts: state.accounts
+    account: state.account
   }
 }
 
-class Main extends Component {
+class Account extends Component {
   componentWillMount() {
-    console.log()
-    // this.props.fetchAccount(this.props.location.query.id)
+    this.props.fetchAccount(this.props.params.accountId)
   }
   render (){
-    const { accounts: { loading, accounts } } = this.props
+    const { account: { account } } = this.props
 
-    if (loading) {
+    if (!account) {
       return <div>Loading...</div>
     } else {
-      console.log(accounts)
+      console.log(account)
       return (
         <ul>
-          Crap
-          {accounts.map(({ name }) => {
-            return (
-              <li>
-                {name}
-              </li>
-            )
-          })}
+          Account {account.info.name}
+          <ul>
+            {account.characters.map(({ name, id }) => {
+              return (
+                <li>
+                  <Link to={`/account/${account.info.pk}/character/${id}`}>{name}</Link>
+                </li>
+              )
+            })}
+          </ul>
         </ul>
       )
     }
   }
 }
 
-export default connect(mapStateToProps, { fetchAccounts })(Main)
+export default connect(mapStateToProps, {fetchAccount})(Account)

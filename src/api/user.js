@@ -7,3 +7,7 @@ export function getAccounts(userId) {
 export function getAccount(accountId) {
   return get(`/api/account/${accountId}/`)
 }
+
+export function getCharacterInfo(accountId, characterId) {
+  return get(`/api/account/${accountId}/character/${characterId}/`)
+}

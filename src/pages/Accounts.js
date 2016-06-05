@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { fetchAccounts } from '../redux/accounts'
+import { Link } from 'react-router'
 
 const mapStateToProps = (state) => {
   return {
@@ -10,9 +11,8 @@ const mapStateToProps = (state) => {
   }
 }
 
-class Main extends Component {
+class Accounts extends Component {
   componentWillMount() {
-    console.log()
     this.props.fetchAccounts(this.props.user.id)
   }
   render (){
@@ -24,10 +24,12 @@ class Main extends Component {
       console.log(accounts)
       return (
         <ul>
-          Crap
-          {accounts.map(({ name }) => {
+          Accounts:
+          {accounts.map(({ pk, name }) => {
             return (
-              <li>{name}</li>
+              <li key={name}>
+                <Link to={`/account/${pk}`}>{name}</Link>
+              </li>
             )
           })}
         </ul>
@@ -36,4 +38,4 @@ class Main extends Component {
   }
 }
 
-export default connect(mapStateToProps, {fetchAccounts})(Main)
+export default connect(mapStateToProps, {fetchAccounts})(Accounts)

@@ -1,0 +1,51 @@
+@import '../../styles/_variables';
+
+
+.EVEIcon {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  text-align: center;
+  line-height: normal;
+
+  img {
+    -webkit-filter: sepia(70%) hue-rotate(170deg);
+    filter: sepia(70%) hue-rotate(170deg);
+  }
+
+  &:hover {
+    img {
+      -webkit-filter: sepia(70%) hue-rotate(170deg) brightness(140%);
+      filter: sepia(70%) hue-rotate(170deg) brightness(140%);
+    }
+
+    &:before {
+      display: block;
+    }
+  }
+
+  > div {
+    font-size: 8px;
+    text-transform: uppercase;
+  }
+
+  &:before {
+    display: none;
+    content: '';
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    background: radial-gradient(ellipse at center, rgba(36, 86, 140, 0.4) 0%, transparent 70%)
+  }
+
+  &.EVEIcon--active {
+    img {
+      -webkit-filter: sepia(70%) hue-rotate(170deg) brightness(140%);
+      filter: sepia(70%) hue-rotate(170deg) brightness(140%);
+    }
+
+    > div {
+      color: lighten($color-accent-light, 15%);
+    }
+  }
+}

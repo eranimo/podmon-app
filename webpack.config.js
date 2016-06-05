@@ -22,7 +22,7 @@ var loaders = [
   },
   {
     "test": /\.scss?$/,
-    "loader": "style!css!sass"
+    "loader": "style!css?modules&localIdentName=[name]---[local]---[hash:base64:5]!sass"
   },
   {
     "test": /\.html?$/,
@@ -31,6 +31,11 @@ var loaders = [
   {
     "test": /\.json?$/,
     "loader": "json"
+  },
+  {
+    "test": /\.png$/,
+    "loader": "url-loader",
+    "query": { "mimetype": "image/png" }
   }
 ];
 

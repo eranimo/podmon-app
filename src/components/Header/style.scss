@@ -1,0 +1,81 @@
+@import '../../styles/_variables';
+
+$header-bg: darken($main-bg, 3%);
+$height: 70px;
+
+.Header {
+  background: linear-gradient(lighten($header-bg, 3%), $header-bg);
+
+  border-bottom: 1px solid $color-accent;
+  box-shadow: inset 0 0 5px 0 $color-accent;
+  color: $color-accent-light;
+  display: flex;
+  align-items: space-between;
+  height: $height;
+
+  h1 {
+    margin: 0;
+    flex: 1;
+    line-height: $height;
+    font-weight: 100;
+    color: lighten($color-accent-light, 25%);
+    margin-left: 1rem;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    text-shadow: 0 0 13px #6490EE;
+  }
+
+  ul {
+    display: flex;
+    align-items: center;
+    margin: 0;
+
+    li {
+      list-style: none;
+      height: $height;
+      line-height: $height + 20px;
+
+      a {
+        padding: 0 2rem;
+        color: $color-accent-light;
+        transition: all 0.1s ease-in-out;
+        display: inline-block;
+        height: $height;
+        line-height: $height + 20px;
+        border-left: 1px solid transparent;
+        border-left: 1px solid transparent;
+
+        &:hover {
+          color: lighten($color-accent-light, 15%);
+          background: none;
+          background-color: rgba(lighten($header-bg, 2%), 0.5);
+        }
+      }
+
+      img {
+        vertical-align: middle;
+      }
+    }
+  }
+
+  .Header__active a {
+    background: linear-gradient($header-bg, lighten($header-bg, 3%));
+    border-left: 1px solid #202020;
+    border-right: 1px solid #202020;
+
+    &:hover {
+      background: linear-gradient($header-bg, lighten($header-bg, 4%));
+    }
+  }
+
+  .Header__auth {
+    border-left: 1px solid $color-accent;
+    margin: 0;
+    padding: 0;
+
+    li, li a {
+      line-height: $height;
+      text-transform: uppercase;
+      font-weight: bold;
+    }
+  }
+}

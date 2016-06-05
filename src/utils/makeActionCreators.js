@@ -4,10 +4,11 @@ export function makeActionCreators(noun, func) {
     return (dispatch) => {
       dispatch({ type: base })
       func(...params)
-        .then(
-          (param) => dispatch({ type: base + '_SUCCESS', data: { [noun]: param }}),
-          (error) => dispatch({ type: base + '_FAILED', data: { error: true }})
-        )
+        .then((param) => dispatch({ type: base + '_SUCCESS', data: { [noun]: param }}))
+        .catch((error) => {
+          console.error(error)
+          dispatch({ type: base + '_FAILED', data: { error: error }})
+        })
     }
   }
 }
