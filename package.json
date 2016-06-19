@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "description": "Project boilerplate",
   "scripts": {
-    "start": "webpack-dev-server --content-base build/ --port 3000 --quiet --hot --inline"
+    "start": "webpack-dev-server --content-base build/ --port 3000 --quiet --hot --inline",
+    "build": "webpack"
   },
   "dependencies": {
     "classnames": "^2.2.5",
@@ -24,6 +25,7 @@
     "babel-preset-react": "6.5.0",
     "babel-preset-stage-0": "6.5.0",
     "css-loader": "0.23.1",
+    "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.8.5",
     "html-webpack-plugin": "1.6.1",
     "json-loader": "0.5.4",
@@ -32,7 +34,8 @@
     "style-loader": "0.13.0",
     "url-loader": "^0.5.7",
     "webpack": "^1.13.1",
-    "webpack-dev-server": "1.14.1"
+    "webpack-dev-server": "1.14.1",
+    "webpack-merge": "^0.14.0"
   },
   "author": "WebpackBin",
   "license": "ISC"
