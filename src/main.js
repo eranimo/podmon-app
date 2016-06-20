@@ -4,7 +4,6 @@ import { createStore, combineReducers, compose, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import { syncHistoryWithStore, routerReducer, routerActions, routerMiddleware } from 'react-router-redux'
 import { Router, Route, IndexRoute, browserHistory } from 'react-router'
-import { UserAuthWrapper } from 'redux-auth-wrapper'
 import thunk from 'redux-thunk';
 import promiseMiddleware from 'redux-promise';
 
