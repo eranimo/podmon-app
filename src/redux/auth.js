@@ -1,7 +1,7 @@
 import cookie from 'react-cookie';
 import { replace } from 'react-router-redux'
 
-import { post } from '../utils/request'
+import { request } from '../utils/request'
 
 // constants
 
@@ -18,55 +18,54 @@ export const AUTH_COOKIE_NAME = 'authPayload'
 // actions
 
 function loginSuccess(token, user) {
-  return { type: LOGIN_SUCCESS, data: { token, user } }
+  return { type: LOGIN_SUCCESS, payload: { token, user } }
 }
 
 function loginFailure(error) {
-  return { type: LOGIN_FAILURE, data: { error } }
+  return { type: LOGIN_FAILURE, payload: { error } }
 }
 
-function checkSuccess(token, user) {
-  return { type: CHECK_SUCCESS, data: { token, user } }
-}
-
-function checkFailed(error) {
+export function checkFailed(error) {
   cookie.remove(AUTH_COOKIE_NAME)
-  return { type: CHECK_FAILED, data: { error } }
+  return { type: CHECK_FAILED, payload: { error } }
+}
+
+export function checkToken() {
+  const cookieToken = cookie.load(AUTH_COOKIE_NAME);
+  return cookieToken || false;
+}
+
+export function checkAuth() {
+  return (dispatch) => {
+    if (!checkToken()){
+      dispatch(replace('/login'))
+      dispatch(checkFailed());
+    }
+  }
 }
 
 // action creators
 
 export function login(username, password) {
   return (dispatch) => {
-    post('/api/token/fetch', { username, password })
-      .then(({ token, user, orig_iat }) => {
-        cookie.save(AUTH_COOKIE_NAME, JSON.stringify({token, orig_iat}))
-        dispatch(loginSuccess(token, user))
-        dispatch(replace('/accounts'))
-      })
-      .catch((error) => dispatch(loginFailure(error)))
-  }
-}
-
-export function checkLogin() {
-  return (dispatch) => {
-    const authToken = cookie.load(AUTH_COOKIE_NAME)
-    if (authToken) {
-      post('/api/token/refresh', authToken)
-        .then(({ token, user }) => {
-          cookie.save('authToken', token)
-          dispatch(checkSuccess(token, user))
-        })
-        .catch((error) => {
-          // auth token probably expired, redurect to login page
-          dispatch(checkFailed(error))
-          dispatch(replace('/login'))
-        })
-    } else {
-      // no auth token, redirect to login page
-      dispatch(checkFailed())
-      dispatch(replace('/login'))
-    }
+    request('http://dev.servall.xyz/api/login_check', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        'Accept': 'application/json'
+      },
+      body: `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`
+    })
+    .then((result) => {
+      const { token, data } = result
+      console.log(token, data);
+      cookie.save(AUTH_COOKIE_NAME, JSON.stringify(token));
+      dispatch(loginSuccess(token, data));
+      dispatch(replace('/accounts'));
+    })
+    .catch((error) => {
+      dispatch(loginFailure(error));
+    });
   }
 }
 
@@ -90,13 +89,12 @@ export function auth(state = initialState, action) {
         ...state,
         loggingIn: true
       }
-    case CHECK_SUCCESS:
     case LOGIN_SUCCESS:
       return {
         ...state,
         loggingIn: false,
         hasError: false,
-        user: action.data.user
+        user: action.payload.user
       }
     case CHECK_FAILED:
     case LOGIN_FAILURE:
@@ -104,7 +102,7 @@ export function auth(state = initialState, action) {
         ...state,
         loggingIn: false,
         hasError: true,
-        loginError: action.data.error
+        loginError: action.payload.error
       }
     case LOGOUT:
       return {

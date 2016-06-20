@@ -1,32 +1,30 @@
 import React, { Component } from 'react'
 import { push } from 'react-router-redux'
 import { connect } from 'react-redux'
-import { checkLogin } from '../redux/auth'
+import { getCharacters } from '../redux/characters'
+import { checkAuth } from '../redux/auth'
 
 
 class Auth extends Component {
   componentWillMount() {
-    this.checkAuth(this.props.user)
-  }
-  componentWillReceiveProps(nextProps) {
-    this.checkAuth(nextProps.user);
-  }
-  checkAuth(user) {
-    if (!user) {
-      this.props.checkLogin()
-    }
+    this.props.getCharacters()
+    this.props.checkAuth()
   }
   render () {
+    console.log(this.props);
     if (this.props.user) {
       return this.props.children
     }
-    return null
+    return <div>You are not logged in!</div>;
   }
 };
 
 
 const mapStateToProps = (state) => {
-  return { ...state.auth }
+  return {
+    ...state.auth,
+    ...state.characters
+  }
 }
 
-export default connect(mapStateToProps, { checkLogin })(Auth)
+export default connect(mapStateToProps, { getCharacters, checkAuth })(Auth)

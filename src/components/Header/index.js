@@ -8,7 +8,6 @@ import EVEIcon from '../EVEIcon'
 class HeaderItem extends Component {
   render () {
     const { children, path, iconSrc, currentPath } = this.props
-    console.log(currentPath, path)
     return (
       <li className={classnames({
         [styles.Header__active]: currentPath === path

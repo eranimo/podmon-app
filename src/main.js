@@ -6,6 +6,7 @@ import { syncHistoryWithStore, routerReducer, routerActions, routerMiddleware } 
 import { Router, Route, IndexRoute, browserHistory } from 'react-router'
 import { UserAuthWrapper } from 'redux-auth-wrapper'
 import thunk from 'redux-thunk';
+import promiseMiddleware from 'redux-promise';
 
 import Auth from './components/Auth'
 
@@ -16,8 +17,6 @@ import Login from './pages/Login'
 import Logout from './pages/Logout'
 import Home from './pages/Home'
 import Accounts from './pages/Accounts'
-import Account from './pages/Account'
-import Character from './pages/Character'
 
 const store = createStore(
   combineReducers({
@@ -40,8 +39,6 @@ ReactDOM.render(
         <Route path="/logout" component={Logout} />
         <Route component={Auth} >
           <Route path="/accounts" component={Accounts} />
-          <Route path="/account/:accountId" component={Account} />
-          <Route path="/account/:accountId/character/:charId" component={Character} />
         </Route>
       </Route>
     </Router>

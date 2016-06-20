@@ -8,7 +8,7 @@ var TARGET = process.env.npm_lifecycle_event;
 
 var common = {
   devtool: 'eval-source-map',
-  entry: path.resolve('src', 'main.js'),
+  entry: ['whatwg-fetch', path.resolve('src', 'main.js')],
   output: {
     path: path.resolve('build'),
     filename: '[name].js',
@@ -26,15 +26,7 @@ var common = {
       {
         "test": /\.js?$/,
         "exclude": /node_modules/,
-        "loader": "babel",
-        "query": {
-          "presets": [
-            "es2015",
-            "react",
-            "stage-0"
-          ],
-          "plugins": []
-        }
+        "loader": "babel"
       },
       {
         "test": /\.html?$/,
@@ -57,10 +49,11 @@ var common = {
     },
     proxy: {
       '/api/*': {
-        target: 'http://localhost:8000',
+        target: 'http://dev.servall.xyz',
         rewrite: function(req) {
           req.url = req.url.replace(/^\/api/, '');
-        }
+        },
+        secure: false
       }
     }
   }

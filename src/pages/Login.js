@@ -3,7 +3,7 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { login } from '../redux/auth'
-import { push } from 'react-router-redux'
+import { push, replace } from 'react-router-redux'
 
 
 const mapStateToProps = (state) => {
@@ -17,9 +17,9 @@ class Login extends Component {
     }
   }
   handleLogin() {
-    const username = this.refs.username.value
-    const password = this.refs.password.value
-    this.props.login(username, password)
+    const username = this.refs.username.value;
+    const password = this.refs.password.value;
+    this.props.login(username, password);
   }
   render (){
     return (
@@ -47,4 +47,4 @@ class Login extends Component {
   }
 }
 
-export default connect(mapStateToProps, { login, push })(Login)
+export default connect(mapStateToProps, { login, push, replace })(Login)
