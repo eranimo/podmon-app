@@ -9,4 +9,7 @@
 Go to `localhost:8080`
 
 ## Production
-To do...
+
+`npm install`
+
+`npm run build`
