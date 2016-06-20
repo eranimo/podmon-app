@@ -9,6 +9,7 @@
   "dependencies": {
     "babel-runtime": "^6.9.2",
     "classnames": "^2.2.5",
+    "jwt-decode": "^2.0.1",
     "node-sass": "^3.7.0",
     "query-string": "^4.1.0",
     "react": "0.14.7",

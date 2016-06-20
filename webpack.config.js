@@ -49,10 +49,12 @@ var common = {
     },
     proxy: {
       '/api/*': {
-        target: 'http://dev.servall.xyz',
-        rewrite: function(req) {
-          req.url = req.url.replace(/^\/api/, '');
+        target: {
+          host: 'dev.servall.xyz',
+          protocol: 'http:',
+          port: 80
         },
+        changeOrigin: true,
         secure: false
       }
     }

@@ -1,6 +1,6 @@
 import cookie from 'react-cookie';
 import { replace } from 'react-router-redux'
-
+import jwtDecode from 'jwt-decode'
 import { request } from '../utils/request'
 
 // constants
@@ -37,9 +37,13 @@ export function checkToken() {
 
 export function checkAuth() {
   return (dispatch) => {
-    if (!checkToken()){
+    const token = checkToken();
+    if (!token){
       dispatch(replace('/login'))
       dispatch(checkFailed());
+    } else {
+      let decoded = jwtDecode(token);
+      dispatch(loginSuccess(token, { username: decoded.username }))
     }
   }
 }
@@ -48,7 +52,7 @@ export function checkAuth() {
 
 export function login(username, password) {
   return (dispatch) => {
-    request('http://dev.servall.xyz/api/login_check', {
+    request('/api/login_check', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',

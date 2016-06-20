@@ -11,28 +11,30 @@ export const getCharacters = () => {
     } else {
       const opts = {
         method: 'GET',
+        // mode: 'no-cors',
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         }
       };
       console.log(opts);
-      request(`http://dev.servall.xyz/api/character`, opts)
-      .then((result) => {
-        dispatch({ type: 'GET_CHARACTERS', payload: result, error: true });
-      })
-      .catch((error) => {
-        dispatch({ type: 'GET_CHARACTERS', payload: error, error: true });
-        dispatch(checkFailed(error));
-      })
+      request('/api/character/', opts)
+        .then((result) => dispatch({ type: 'GET_CHARACTERS', payload: result, error: true }))
+        .catch((error) => {
+          console.error(error);
+          dispatch(checkFailed(error));
+          dispatch({ type: 'GET_CHARACTERS', payload: error, error: true });
+        })
     }
   }
 };
 
 
-export const characters = handleAction('GET_CHARACTERS', {
-  next(state, action) {
-    console.log(action)
-    return { ...state, characters: action.payload }
+export function characters(state = { characters: [] }, action) {
+  switch (action.type) {
+    case 'GET_CHARACTERS':
+      return { ...state, characters: action.payload};
+    default:
+      return state;
   }
-}, { characters: [] })
+}

@@ -6,7 +6,8 @@ import { Link } from 'react-router'
 
 const mapStateToProps = (state) => {
   return {
-    user: state.auth.user
+    user: state.auth.user,
+    characters: state.characters.characters
   }
 }
 
@@ -15,7 +16,16 @@ class Accounts extends Component {
     // this.props.fetchAccounts(this.props.user.id)
   }
   render (){
-    return <div>Accounts</div>;
+    return (
+      <div>
+        <h2>Characters</h2>
+        <ul>
+          {this.props.characters.map((char) => {
+            return <li key={char.id}>{char.name}</li>;
+          })}
+        </ul>
+      </div>
+    )
     // const { accounts: { accounts } } = this.props
     //
     // if (!accounts) {
